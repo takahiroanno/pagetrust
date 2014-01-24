@@ -38,14 +38,14 @@ def build_transition_matrix(alpha,x,g,G,M):
 			if (k,i) not in g.edges():
 				continue
 			s += x[k] / g.out_degree(k,weight='weight')
-		bunbo = alpha * s + (1 - alpha) * 1/float(N)
+		denominator = alpha * s + (1 - alpha) * 1/float(N)
 		for j in range(N):
 			if i == j:
 				continue
 			if (j,i) not in g.edges():
 				continue
-			top = alpha * g[j][i]['weight'] * x[j] / g.out_degree(j,weight='weight') + M * (1 - alpha)*(1/float(N))*x[j]
-			T[i][j] = top/bunbo
+			numerator = alpha * g[j][i]['weight'] * x[j] / g.out_degree(j,weight='weight') + M * (1 - alpha)*(1/float(N))*x[j]
+			T[i][j] = numerator/denominator
 	visualize('T',T)
 	return T
 
@@ -102,7 +102,7 @@ def calc(g,negative,alpha,M,beta=1):
 		e = is_converged(x,x2)
 		print "e:",e
 		if e < epsilon:
-			visualize('pagerank',pagerank)
+			#visualize('pagerank',pagerank)
 			break
 		else:
 			#x <- x(t+1)
